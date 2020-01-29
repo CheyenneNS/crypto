@@ -61,10 +61,6 @@ class Block:
         )
         return h.hexdigest()
 
-#display strings of values.
-    def __str__(self):
-        return "\nBlockHash: " + str(self.hash()[0]) + "\nBlockNo: " + str(self.blockNo) + "\nBlock Data: " + str(self.data) + "\nHashes: " + str(self.nonce) + "\nTarget: " + str(self.target) + "\n--------------"
-
 class Blockchain:
 
     diff = 253
@@ -82,6 +78,7 @@ class Blockchain:
         self.block.next = block
         self.block = self.block.next
 
+
     def mine(self, block):
         for n in range(self.maxNonce):
             first_element_hash = block.hash()[0]
@@ -89,12 +86,14 @@ class Blockchain:
             print("This is target {}".format(self.target))
             if int(str(first_element_hash), 16) <= self.target:
                 self.add(block)
-                print(self.block)
+                hashstr = "\nBlockHash: " + str(first_element_hash) + "\nBlockNo: " + str(Block.blockNo) + \
+                          "\nBlock Data: "+ str(Block.data) + "\nHashes: " + str(Block.nonce) + "\nTarget: " + \
+                          str(Block.target) + "\n--------------"
+                print(hashstr)
                 break
             else:
-                print("In else statment")
                 block.nonce += 1
-                print(block.nonce)
+
 
 
 blockchain = Blockchain()
@@ -103,5 +102,4 @@ for n in range(10):
     blockchain.mine(Block("Block " + str(n+1)))
 
 while blockchain.head != None:
-    print(blockchain.head)
-    blockchain.head = blockchain.head.next
+    #print(blockchain.head)
